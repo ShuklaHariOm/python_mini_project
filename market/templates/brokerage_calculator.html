@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block title %}
+    Brokerage_calculator
+{% endblock %}
+{% block content %}
+<html>
+<head>
+    <title>Brokerage Calculator</title>
+</head>
+
+<style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            h1 {
+                text-align: center;
+                margin-top: 1rem;
+            }
+
+            form {
+                margin: 1rem auto;
+                width: 25rem;
+                height: 29rem;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                border: 1px solid #ccc;
+                padding: 2rem;
+                border-radius: 15px;
+                box-shadow: 0 0 10px #008CBA;
+                justify-content: center;
+            }
+            
+            .input-container {
+                 margin: 0.5rem 0;
+                 width: 100%;
+            }
+
+            .submit-btn {
+                margin-top: 1rem;
+                background: #008CBA;
+                color: white;
+            }
+
+            input {
+                width: 100%;
+                border-radius: 0.5rem;
+            }
+
+            p {
+                font-size: 1.6rem;
+                padding: 1.5rem;
+            }
+</style>
+<body>
+    <h1>Brokerage Calculator</h1>
+    <form method="POST" action="{{ url_for('brokerage_calculator') }}">
+        <div class="input-container">
+            <label for="buy_price">Buy Price:</label>
+            <input type="number" id="buy_price" name="buy_price"> </div>
+
+        <div class="input-container">
+            <label for="sell_price">Sell Price:</label>
+            <input type="number" id="sell_price" name="sell_price"> </div>
+
+        <div class="input-container">
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity"></div>
+
+        <div class="input-container">
+            <label for="brokerage_rate">Brokerage Rate:</label>
+            <input type="number" id="brokerage_rate" name="brokerage_rate"></div>
+
+        <input class="submit-btn" type="submit" value="Calculate Brokerage">
+
+        {% if brokerage %}
+            <p>Your brokerage is {{ brokerage }}</p>
+        {% endif %}
+    </form>
+
+
+</body>
+</html>
+{% endblock %}

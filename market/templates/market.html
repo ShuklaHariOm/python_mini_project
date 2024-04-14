@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}
+Market Page
+{% endblock %}
+{% block content %}
+
+<div class="row" style="margin-top:20px; margin-left:20px">
+   <div class="col-8">
+       <h2>Stock for today in Market!</h2>
+       <p>Click on one of the stocks to start buying</p>
+      <table class="table table-hover table-dark">
+         <thead>
+            <tr>
+               <!-- Your Columns HERE -->
+               <th scope="col">ID</th>
+               <th scope="col">Name</th>
+               <th scope="col"></th>
+               <th scope="col">Price</th>
+               <th scope="col">Options</th>
+            </tr>
+         </thead>
+         <tb4dody>
+            <!-- Your rows inside the table HERE: -->
+            {% for item in items %}
+            {% include 'includes/items_modals.html' %}
+            <tr>
+               <td>{{ item.id }}</td>
+               <td>{{ item.name }}</td>
+               <td>{{ item.barcode }}</td>
+               <td>₹{{ item.price }}</td>
+               <td>
+                  <button class="btn btn-outline btn-info" data-toggle="modal" data-target="#Modal-MoreInfo-{{ item.id }}">More Info</button>
+                  <button class="btn btn-outline btn-success" data-toggle="modal" data-target="#Modal-PurchaseConfirm-{{ item.id }}">Purchase this Stock</button>
+               </td>
+            </tr>
+            {% endfor %}
+         </tb4dody>
+      </table>
+   </div>
+   <div class="col-4">
+       <h2>Owned Stocks</h2>
+       <p>Click on sell stock to put an item back on the Market</p>
+       sell
+       <div class="row">
+          {% for owned_item in owned_items %}
+          {% include 'includes/owned_item_modals.html' %}
+            <div class="col-md-6">
+               <div style="margin-bottom: 5px" class="card text-center bg-dark">
+                  <div class="card-body">
+                     <h5 class="card-title">{{ owned_item.name }}</h5>
+                        <button type="button" class="btn btn-outline-danger" style="margin-bottom: 5px"
+                                  data-toggle="modal" data-target="#Modal-SellingConfirm-{{ owned_item.id }}">
+                              Sell this Stock
+                        </button>
+                           <p class="card-text"><strong>
+                              This stock costs ₹{{ owned_item.price }}
+                           </strong></p>
+                  </div>
+               </div>
+            </div>
+          {% endfor %}
+       </div>
+   </div>
+</div>
+{% endblock %}

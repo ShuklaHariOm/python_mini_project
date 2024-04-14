@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %}
+    Home Page
+{% endblock %}
+{% block content %}
+
+<html>
+<head>
+	<style>
+		body {
+			background-color: #333333;
+			color: #FFFFFF;
+			font-family: Arial, sans-serif;
+		}
+
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		th, td {
+			text-align: left;
+			padding: 8px;
+		}
+
+		tr:nth-child(even) {
+			background-color: #444444;
+		}
+
+		th {
+			background-color: #007BFF;
+			color: #FFFFFF;
+		}
+
+		td a {
+            color: white;
+            text-decoration: none;
+        }
+
+	</style>
+</head>
+<body>
+    <table>
+    <thead>
+    <tr>
+      <th>Symbol</th>
+      <th>Last Price</th>
+      <th>Change</th>
+      <th>% Change</th>
+      <th>Previous Close</th>
+      <th>Open</th>
+      <th>Day's High</th>
+      <th>Day's Low</th>
+    </tr>
+
+  </thead>
+  <tbody>
+  {% for data in company_data %}
+    <tr>
+      <td><a href="/{{ data[0] }}.html">
+          {{ data[0] }}
+            </a>
+      </td>
+      <td>{{ data[1] }}</td>
+      <td>{{ data[2] }}</td>
+      <td>{{ data[3] }}</td>
+      <td>{{ data[4] }}</td>
+      <td>{{ data[5] }}</td>
+      <td>{{ data[6] }}</td>
+      <td>{{ data[7] }}</td>
+    </tr>
+  {% endfor %}
+    <!-- add more rows for other companies -->
+  </tbody>
+</table>
+
+</body>
+
+{% endblock %}

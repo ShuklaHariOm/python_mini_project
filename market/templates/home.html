@@ -1,0 +1,309 @@
+{% extends 'base.html' %}
+{% block title %}
+    Home Page
+{% endblock %}
+
+{% block content %}
+
+
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+	<style>
+	.search-button {
+          display: flex;
+          align-items: center;
+          padding: 8px;
+          border: none;
+          background-color: #007BFF;
+          color: #fff;
+          cursor: pointer;
+        }
+
+        .search-button i {
+          margin-right: 5px;
+        }
+
+		body {
+			background-color: #333333;
+			color: #FFFFFF;
+			font-family: Arial, sans-serif;
+		}
+
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		th, td {
+			text-align: left;
+			padding: 8px;
+		}
+
+		tr:nth-child(even) {
+			background-color: #444444;
+		}
+
+		th {
+			background-color: #007BFF;
+			color: #FFFFFF;
+		}
+
+		.greenTxt {
+            color: green;
+        }
+
+        .redTxt {
+            color: red;
+        }
+
+
+	</style>
+</head>
+<body>
+
+    <div class="container my-3">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <form>
+            <div class="input-group">
+              <input type="text" class="form-control form-control-lg" id="search-box" placeholder="Work in progress..">
+
+              <div class="input-group-append">
+                <button class="search-button" type="submit">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+<div class="container">
+    <nav class="tabs_boxes">
+        <div class="container">
+            <div class="nav nav-tabs" role="tablist">
+                {% for data in datas %}
+                <a class="nav-item nav-link" id="tabList_{{ data[0] }}" data-toggle="tab" href="/{{ data[0] }}.html" role="tab" aria-selected="#">
+                    <div class="tab_box up">
+                        <p data-nse-translate="symbol" class="tb_name" id="{{ data[0] }}">{{ data[0] }}</p>
+                        <p class="tb_val">
+                            {{ data[1] }}
+                            <span class="arrow {% if data[2] or data[3] > 0 %}up{% else %}down{% endif %}"></span>
+                        </p>
+                        <p class="tb_per {% if data[2] > 0 %}greenTxt{% else %}redTxt{% endif %}">
+                            {{ data[2] }} ({{ data[3] }}%)
+                        </p>
+
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </nav>
+</div>
+  <table>
+  <thead>
+    <tr>
+      <th>Symbol</th>
+      <th>Last Price</th>
+      <th>Change</th>
+      <th>% Change</th>
+      <th>Previous Close</th>
+      <th>Open</th>
+      <th>Day's High</th>
+      <th>Day's Low</th>
+    </tr>
+
+  </thead>
+  <tbody>
+  {% for data in company_data %}
+    <tr>
+      <td><a href="/{{ data[0] }}.html">
+          {{ data[0] }}
+            </a>
+      </td>
+      <td>{{ data[1] }}</td>
+      <td>{{ data[2] }}</td>
+      <td>{{ data[3] }}</td>
+      <td>{{ data[4] }}</td>
+      <td>{{ data[5] }}</td>
+      <td>{{ data[6] }}</td>
+      <td>{{ data[7] }}</td>
+    </tr>
+  {% endfor %}
+    <!-- add more rows for other companies -->
+  </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $('#search-box').keyup(function() {
+        var input = $('#search-box').val();
+        $.get("/auto-suggestion?q="+input, (d) => {
+        var option = "";
+        for (var i = 0; i < d.length; i++) {
+            options += '<option>' + d[i][0] + '</option>';
+        }
+        $('#search-dropdown').html(options);
+	    $('#search-dropdown').show();
+        })
+    })
+</script>
+
+</body>
+
+<style>
+.arrow {
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  display: inline-block;
+  margin-left: 5px;
+}
+.up .arrow {
+  border-left: 6px solid green;
+}
+.down .arrow {
+  border-left: 6px solid red;
+}
+    canvas {
+    border: 2px solid red;
+    }
+    .h-txt{
+         max-width: 650px;
+         position: absolute;
+         top: 70%;
+         left: 35%;
+         transform:translate(-50%,-50);
+         }
+    .top-nav input[type=text] {
+         max-length: 1000px;
+         position: absolute;
+         top: 100%;
+         left: 30%;
+         transform:translate(-50%,-50);
+         font-size: 20px;
+         }
+    .common-tabs .nav-tabs {
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    }
+    .common-tabs .nav-tabs {
+    border: none;
+    }
+    .nav {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    }
+    p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    }
+    * {
+    outline: none !important;
+    }
+    *, ::after, ::before {
+        box-sizing: border-box;
+    }
+    .tabs_boxes .nav-tabs .nav-link .tab_box .tb_val {
+    font-size: 16px;
+    margin: 0;
+    position: relative;
+    padding-right: 45px;
+    font-weight: bold;
+    color: #5c5c5c;
+    }
+    .greenTxt {
+    color: #0f8a0f;
+    }
+    .tabs_boxes .nav-tabs .nav-link .tab_box .tb_name .tb_per {
+    font-size: 0.875rem;
+    margin: 0;
+    color: #4a4a4a;
+    font-weight: normal;
+    }
+    .nav-link.active {
+    background-color: #fff;
+    border: 0;
+    border-left: 3px solid green !important;
+    position: relative;
+    border-radius: 0px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+    font-weight: normal;
+    }
+    .tabs_boxes .nav-tabs .nav-link {
+        position: relative;
+        background-color: #fff;
+        padding: 5px;
+        transition: all 0.3s;
+        margin: 5px 8px;
+        border: none;
+        width: 15%;
+        display: center;
+        justify-content: center;
+    }
+
+    @media screen and (max-width: 768px) {
+        .tabs_boxes .nav-tabs .nav-link {
+            width: 30%;
+        }
+    }
+
+    @media screen and (max-width: 576px) {
+        .tabs_boxes .nav-tabs .nav-link {
+            width: 45%;
+        }
+    }
+
+    .tabs_boxes .nav-tabs .nav-link .tab_box {
+        overflow: hidden;
+        text-align: center;
+    }
+
+    .container {
+    padding: 0 20px;
+    }
+
+    .nav-tabs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+
+    .tb_name {
+    flex: 10;
+    }
+
+    .tb_val, .tb_per {
+    flex: 1;
+    }
+
+    .tab_box {
+    display: flex;
+    flex-direction: column;
+    width: 6 rem;
+    }
+    .nav-link {
+    width: 10 rem;
+    }
+
+    td a{
+    color: white;
+    text-decoration: none;
+    }
+
+</style>
+{% endblock %}

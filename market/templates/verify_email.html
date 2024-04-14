@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Verify your Email Address</h2>
+    <p>Please check your email for the OTP and enter it below to complete the registration process.</p>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.email_otp.label }}
+            {{ form.email_otp(class="form-control") }}
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Verify Email</button>
+        </div>
+    </form>
+{% endblock %}
